@@ -3,15 +3,18 @@ package com.example.jkloppenburg1.petprotector;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.AnyRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -39,7 +42,7 @@ public class PetListActivity extends AppCompatActivity {
         petImageView.setImageURI(imageURI);
 
     }
-    public void selectPetImage()
+    public void selectPetImage(View view)
     {
         // List of all permissions
         ArrayList<String> permList = new ArrayList<>();
@@ -81,10 +84,10 @@ public class PetListActivity extends AppCompatActivity {
 
             // Use an intent to launch gallery and take pictures
 
+            Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-//            Intent galleryIntent = new Intent(this, Intent.ACTION_PICK,
-//                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//            startActivityForResult(galleryIntent, requestCode);
+            startActivityForResult(galleryIntent, requestCode);
 
         }
         else
