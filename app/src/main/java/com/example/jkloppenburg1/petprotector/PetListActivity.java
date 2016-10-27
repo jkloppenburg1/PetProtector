@@ -23,6 +23,7 @@ import java.util.ArrayList;
 public class PetListActivity extends AppCompatActivity {
 
     private ImageView petImageView;
+    private static final int REQUEST_CODE = 100;
 
     // This member variable stores the URI to whatever image has been selected
     // Default: none.png (R.drawable.none)
@@ -42,6 +43,24 @@ public class PetListActivity extends AppCompatActivity {
         petImageView.setImageURI(imageURI);
 
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Code to handle when the user clones the image gallery (by selecting an image
+        // or pressing the back button)
+
+        // The Intent data is the URI selected from image
+        // Decide if the user selected an image:
+        if (data != null && requestCode == REQUEST_CODE && resultCode == RESULT_OK)
+        {
+            imageURI = data.getData();
+            petImageView.setImageURI(imageURI);
+        }
+    }
+
     public void selectPetImage(View view)
     {
         // List of all permissions
@@ -67,14 +86,14 @@ public class PetListActivity extends AppCompatActivity {
         }
 
         // If the list has items (size > 0) request permissions from the user.
-        int requestCode = 100;
+        //int requestCode = 100;
         if (permList.size() > 0)
         {
             // Convert the array list into an array of strings
             String[] perms = new String[permList.size()];
 
 
-            ActivityCompat.requestPermissions(this, permList.toArray(perms), requestCode);
+            ActivityCompat.requestPermissions(this, permList.toArray(perms), REQUEST_CODE);
         }
 
         if (cameraPermission == PackageManager.PERMISSION_GRANTED
@@ -87,7 +106,7 @@ public class PetListActivity extends AppCompatActivity {
             Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-            startActivityForResult(galleryIntent, requestCode);
+            startActivityForResult(galleryIntent, REQUEST_CODE);
 
         }
         else
@@ -95,8 +114,8 @@ public class PetListActivity extends AppCompatActivity {
             Toast.makeText(this, "Pet Protector requires camera and external storage permission",
                     Toast.LENGTH_LONG).show();
         }
-
     }
+
 
 
     public static Uri getUriToResource(@NonNull Context context, @AnyRes int resId) throws Resources.NotFoundException
