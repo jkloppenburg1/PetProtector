@@ -20,6 +20,7 @@ public class PetDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_details);
 
+
         detailsImageView = (ImageView) findViewById(R.id.detailsImageView);
         detailsNameTextView = (TextView) findViewById(R.id.detailsNameTextView);
         detailsDetailsTextView = (TextView) findViewById(R.id.detailsDetailsTextView);
