@@ -15,15 +15,25 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PetListActivity extends AppCompatActivity {
 
+    private DBHelper db;
+    private List<Pet> petsList;
+    private PetListAdapter petListAdapter;
     private ListView petListView;
+
+    private EditText petNameEditText;
+    private EditText petDetailsEditText;
+    private EditText phoneNumberEditText;
 
     private ImageView petImageView;
     private static final int REQUEST_CODE = 100;
@@ -37,6 +47,18 @@ public class PetListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_list);
+
+        this.deleteDatabase(DBHelper.DATABASE_NAME);
+        db = new DBHelper(this);
+
+        petsList = db.getAllPets();
+        petListAdapter = new PetListAdapter(this, R.layout.pet_list_item, petsList);
+        petListView = (ListView) findViewById(R.id.petListView);
+        petListView.setAdapter(petListAdapter);
+
+        petNameEditText = (EditText) findViewById(R.id.petNameEditText);
+        petDetailsEditText = (EditText) findViewById(R.id.petDetailsEditText);
+        phoneNumberEditText = (EditText) findViewById(R.id.phoneNumberEditText);
 
         petImageView = (ImageView) findViewById(R.id.petImageView);
 
@@ -60,6 +82,47 @@ public class PetListActivity extends AppCompatActivity {
         if (data != null && requestCode == REQUEST_CODE && resultCode == RESULT_OK)
         {
             imageURI = data.getData();
+            petImageView.setImageURI(imageURI);
+        }
+    }
+
+    public void viewPetDetails(View view)
+    {
+        LinearLayout petListLinearLayout = (LinearLayout) findViewById(R.id.petListLinearLayout);
+        Pet selectedPet = (Pet) petListLinearLayout.getTag();
+        Intent intent = new Intent(this, PetDetailsActivity.class);
+
+        intent.putExtra("Name", selectedPet.getName());
+        intent.putExtra("Details", selectedPet.getDetails());
+        intent.putExtra("Phone", selectedPet.getPhone());
+        intent.putExtra("Image URI", selectedPet.getImageUri().toString());
+
+        startActivity(intent);
+    }
+
+    public void addPet(View view)
+    {
+        String name = petNameEditText.getText().toString();
+        String details = petDetailsEditText.getText().toString();
+        int phone = Integer.parseInt(phoneNumberEditText.getText().toString());
+
+        if(name.isEmpty() || details.isEmpty()) // || phone == 0;
+        {
+            Toast.makeText(this, "Entry fields cannot be empty", Toast.LENGTH_SHORT).show();
+
+        }
+        else
+        {
+            Pet newPet = new Pet(name, details, phone, imageURI);
+            petListAdapter.add(newPet);
+            db.addPet(newPet);
+
+            petNameEditText.setText("");
+            petDetailsEditText.setText("");
+            phoneNumberEditText.setText("");
+
+            imageURI = getUriToResource(this, R.drawable.none);
+
             petImageView.setImageURI(imageURI);
         }
     }
