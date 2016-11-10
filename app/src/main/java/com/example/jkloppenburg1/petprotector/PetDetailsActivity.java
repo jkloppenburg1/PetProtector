@@ -29,7 +29,7 @@ public class PetDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String name = intent.getStringExtra("Name");
         String details = intent.getStringExtra("Details");
-        int phone = intent.getIntExtra("Phone", 0);
+        String phone = intent.getStringExtra("Phone");
         String imageUri = intent.getStringExtra("Image URI");
 
         detailsImageView.setImageURI(Uri.parse(imageUri));
