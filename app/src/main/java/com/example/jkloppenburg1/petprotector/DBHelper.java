@@ -32,12 +32,12 @@ class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate (SQLiteDatabase database){
         // TODO:  Define the SQL statement to create a new table with the fields above.
-        String table = "CREATE TABLE" + DATABASE_TABLE + "("
-                + KEY_FIELD_ID + "INTEGER AUTO INCREMENT, "
-                + FIELD_NAME + "TEXT, "
-                + FIELD_DETAILS + "TEXT, "
-                + FIELD_PHONE + "INTEGER, "
-                + FIELD_IMAGE_URI + "TEXT" + ")";
+        String table = "CREATE TABLE " + DATABASE_TABLE + "("
+                + KEY_FIELD_ID + " INTEGER AUTO INCREMENT, "
+                + FIELD_NAME + " TEXT, "
+                + FIELD_DETAILS + " TEXT, "
+                + FIELD_PHONE + " TEXT, "
+                + FIELD_IMAGE_URI + " TEXT" + ")";
         // TODO:  Primary key should auto increment
         // TODO:  Exceute the SQL statement
         database.execSQL(table);
@@ -88,7 +88,7 @@ class DBHelper extends SQLiteOpenHelper {
                     int id = results.getInt(0);
                     String name = results.getString(1);
                     String details = results.getString(2);
-                    int phone = results.getInt(3);
+                    String phone = results.getString(3);
                     String imageURI = results.getString(4);
                     petList.add(new Pet(name, details, phone, Uri.parse(imageURI)));
                 }
@@ -151,7 +151,7 @@ class DBHelper extends SQLiteOpenHelper {
                 results.getInt(0),
                 results.getString(1),
                 results.getString(2),
-                results.getInt(3),
+                results.getString(3),
                 Uri.parse(results.getString(4)));
 
 

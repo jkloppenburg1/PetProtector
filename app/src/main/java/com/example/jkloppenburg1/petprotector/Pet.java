@@ -12,10 +12,10 @@ public class Pet
     private int mId;
     private String mName;
     private String mDetails;
-    private int mPhone;
+    private String mPhone;
     private Uri mImageUri;
 
-    public Pet(int mId, String mName, String mDetails, int mPhone, Uri mImageUri) {
+    public Pet(int mId, String mName, String mDetails, String mPhone, Uri mImageUri) {
         this.mId = mId;
         this.mName = mName;
         this.mDetails = mDetails;
@@ -23,11 +23,8 @@ public class Pet
         this.mImageUri = mImageUri;
     }
 
-    public Pet(String mName, String mDetails, int mPhone, Uri mImageUri) {
-        this.mName = mName;
-        this.mDetails = mDetails;
-        this.mPhone = mPhone;
-        this.mImageUri = mImageUri;
+    public Pet(String mName, String mDetails, String mPhone, Uri mImageUri) {
+        this(-1, mName, mDetails, mPhone, mImageUri);
     }
 
     public String toString()
@@ -56,11 +53,11 @@ public class Pet
         this.mDetails = mDetails;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return mPhone;
     }
 
-    public void setPhone(int mPhone) {
+    public void setPhone(String mPhone) {
         this.mPhone = mPhone;
     }
 

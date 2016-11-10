@@ -104,7 +104,7 @@ public class PetListActivity extends AppCompatActivity {
     {
         String name = petNameEditText.getText().toString();
         String details = petDetailsEditText.getText().toString();
-        int phone = Integer.parseInt(phoneNumberEditText.getText().toString());
+        String phone = phoneNumberEditText.getText().toString();
 
         if(name.isEmpty() || details.isEmpty()) // || phone == 0;
         {
